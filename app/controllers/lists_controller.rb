@@ -1,10 +1,11 @@
 class ListsController < ApplicationController
+  before_action :find_list, only: [:show, :destroy]
+
   def index
     @lists = List.all
   end
 
 def show
-      @list = List.find(params[:id])
 end
 
 def new
@@ -20,9 +21,20 @@ def create
   end
 end
 
+def destroy
+  @list.destroy
+  redirect_to lists_url
+end
+
 private
+
+def find_list
+  @list = List.find(params[:id])
+end
 
 def list_params
   params.require(:list).permit(:name)
 end
+
+
 end

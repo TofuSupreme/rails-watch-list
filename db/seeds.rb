@@ -6,32 +6,37 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 # require 'open-uri'
+
+puts "Cleaning the Movie db and Bookmarks"
+Bookmark.destroy_all
 Movie.destroy_all
+puts "Done! Now cleaning the List db"
 List.destroy_all
 
-# # the Le Wagon copy of the API
-# url = 'http://tmdb.lewagon.com/movie/top_rated'
-# response = JSON.parse(URI.open(url).read)
+puts "Now populating the Movie db"
 
-#  response['results'].each do|movie_hash|
-#   puts
-#   p movie_hash
-#   Movie.create!(
-#     title: movie_hash.original_title,
-#     overview: movie_hash.overview,
-#     poster_url: "https://image.tmdb.org/t/p/w500" + movie_hash['poster_path'],
-#     rating: movie_hash.rating
-#   )
-# end
+url = "http://tmdb.lewagon.com/movie/top_rated"
 
-  Movie.create!(title: "Wonder Woman 1984", overview: "Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s", poster_url: "https://image.tmdb.org/t/p/original/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg", rating: 6.9)
-  Movie.create!(title: "The Shawshank Redemption", overview: "Framed in the 1940s for double murder, upstanding banker Andy Dufresne begins a new life at the Shawshank prison", poster_url: "https://image.tmdb.org/t/p/original/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg", rating: 8.7)
-  Movie.create!(title: "Titanic", overview: "101-year-old Rose DeWitt Bukater tells the story of her life aboard the Titanic.", poster_url: "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg", rating: 7.9)
-  Movie.create!(title: "Ocean's Eight", overview: "Debbie Ocean, a criminal mastermind, gathers a crew of female thieves to pull off the heist of the century.", poster_url: "https://image.tmdb.org/t/p/original/MvYpKlpFukTivnlBhizGbkAe3v.jpg", rating: 7.0)
+20.times do |i|
+  puts "Importing movies from page #{i + 1}"
+    movies = JSON.parse(open("#{url}?page=#{i + 1}").read)['results']
+    movies.each do |movie|
+      puts "Creating #{movie['title']}"
+      base_poster_url = "https://image.tmdb.org/t/p/original"
+      Movie.create(
+        title: movie['title'],
+        overview: movie['overview'],
+        poster_url: "#{base_poster_url}#{movie['backdrop_path']}",
+        rating: movie['vote_average']
+      )
+    end
+end
+puts "Movies are done! Now for lists..."
 
+names = ["Save for later", "Recommended", "Interested", "Kid Friendly", "Background noise", "Movie Night"]
 
-List.create!(name: 'Great movies!')
-List.create!(name: 'So-so movies...')
-List.create!(name: 'Will not rewatch')
+names.each do |name|
+  List.create!(name: name)
+end
 
-p "Finished seeding"
+puts "List is done! 🙂"
