@@ -4,20 +4,28 @@
     <h3 class="typed-js"></h3>
   </div>
 </div>
+
 <div class="container py-5">
   <div class="d-flex align-items-center justify-content-between mb-3">
     <h3 class="mb-0">My Lists</h3>
     <%= link_to 'Create a movie list', new_list_path, class: 'btn btn-flat' %>
   </div>
+</div>
+
+<div class="container">
   <div class="row">
-    <% @lists.each do |list| %>
-      <div class="co-12 colsm-6 col-md-4">
-        <%= link_to list_path(list), class:'text-decoration-none' do %>
-          <div class="card-category" data-aos="zoom-in" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path('list_background.jpg') %>)">
-            <%= list.name %>
-          </div>
-        <% end %>
+  <% @lists.each do |list| %>
+    <div class="col-3">
+      <div class="card">
+      <%= link_to list_path(list), class:'text-decoration-none' do %>
+        <img class="card-img-top" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= list.photo.attached? ? cl_image_path(list.photo.key,  height: 300, width: 400, crop: :fill) : asset_path('cinema_photo.jpg') %>)">
+        <div class="card-body">
+          <h5 class="card-title"> <%= list.name %></h5>
+          <span> </span>
+          <% end %>
+        </div>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+</div>
 </div>

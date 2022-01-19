@@ -1,4 +1,5 @@
 class Bookmark < ApplicationRecord
+  has_one_attached :photo
   belongs_to :movie, dependent: :destroy
   belongs_to :list, dependent: :destroy
   validates :comment, length: {minimum: 6}
