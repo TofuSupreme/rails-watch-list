@@ -25,7 +25,7 @@ end
 
 def destroy
   @list.destroy
-  redirect_to lists_url
+  redirect_to root
 end
 
 private
@@ -37,6 +37,4 @@ end
 def list_params
   params.require(:list).permit(:name, :photo)
 end
-
-
 end
