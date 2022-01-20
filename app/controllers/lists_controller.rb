@@ -15,6 +15,8 @@ end
 def create
   @list = List.new(list_params)
   if @list.save
+    @list.photo.attach(list_params[:photo])
+
     redirect_to lists_url
   else
     render :new
