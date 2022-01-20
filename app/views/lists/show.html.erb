@@ -1,14 +1,17 @@
 
-
-This is your <%= @list.name %>
-<div class="container">
+<h1>This is your <%= @list.name %> List </h1>
+  <div class="buttons">
+    <%= link_to 'Back', lists_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add a new movie', new_list_bookmark_path(@list), class: 'btn btn-warning' %>
+    <%= link_to 'Delete this list', list_path(@list), method: :delete, data: {confirm: " Are you sure you want to delete #{@list.name} ?"}, class: 'btn btn-danger' %>
+    </div>
+  <div class="container">
+    <div class="movies-div">
 <% @list.movies.each do |movie| %>
-<p><strong>Movie title: <%= movie.title %> </strong> </p>
+<p class="movie-title"><strong>Movie title: <%= movie.title %> </strong> </p>
 <%= image_tag movie.poster_url, alt: movie.title, class: 'movie-img rounded-top' %>
-<p><strong>Overview:
+<p class="movie-overview"><strong>Overview:
 </strong><%= movie.overview %></p>
 <%  end  %>
+  </div>
 </div>
-<%= link_to 'Back', lists_path %>
-<%= link_to 'Add a new movie', new_list_bookmark_path(@list) %>
-<%= link_to 'Delete this list', list_path(@list), method: :delete, data: {confirm: " Are you sure you want to delete #{@list.name} ?"} %>
