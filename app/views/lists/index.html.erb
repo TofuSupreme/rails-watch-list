@@ -1,14 +1,13 @@
 <div class="cover mb-4 d-flex align-items-center justify-content-center">
   <div class="text-center text-white">
     <h1>Save any kind of movies</h1>
-    <h3 class="typed-js"></h3>
   </div>
 </div>
 
-<div class="container py-5">
+<div class="container py-5" id="lists">
   <div class="d-flex align-items-center justify-content-between mb-3">
     <h3 class="mb-0">My Lists</h3>
-    <%= link_to 'Create a movie list', new_list_path, class: 'btn btn-flat' %>
+    <%= link_to 'Create a movie list', new_list_path, class: 'btn btn-warning' %>
   </div>
 </div>
 
@@ -21,6 +20,7 @@
         <img class="card-img-top" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= list.photo.attached? ? cl_image_path(list.photo.key,  height: 300, width: 400, crop: :fill) : asset_path('cinema_photo.jpg') %>)">
         <div class="card-body">
           <h5 class="card-title"> <%= list.name %></h5>
+          <h6 class="card-subtitle"> There's <%= list.bookmarks.count %> movie(s) in this list </h6>
           <span> </span>
           <% end %>
         </div>

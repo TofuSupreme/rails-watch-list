@@ -1,12 +1,14 @@
 
 
 <%= @list.name %>
-
+<div class="container">
 <% @list.movies.each do |movie| %>
 <p><strong>Movie title: <%= movie.title %> </strong> </p>
-<p><strong>Overview</strong><%= movie.overview %></p>
 <%= image_tag movie.poster_url, alt: movie.title, class: 'movie-img rounded-top' %>
+<p><strong>Overview:
+</strong><%= movie.overview %></p>
 <%  end  %>
+</div>
 <%= link_to 'Back', lists_path %>
 <%= link_to 'Add a new movie', new_list_bookmark_path(@list) %>
 <%= link_to 'Delete this list', list_path(@list), method: :delete, data: {confirm: " Are you sure you want to delete #{@list.name} ?"} %>
